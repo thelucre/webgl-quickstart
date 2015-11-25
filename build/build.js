@@ -23394,7 +23394,7 @@
 	      this.scene.add(this.light);
 	      this.scene.add(this.light2);
 	      this.manager = new THREE.LoadingManager();
-	      this.deer = new OBJModel(this.manager, this.scene, '/models/Deer.obj');
+	      this.deer = new OBJModel(this.manager, this.scene, '../models/Deer.obj');
 	      this.render();
 	    },
 	
