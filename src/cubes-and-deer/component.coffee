@@ -41,7 +41,7 @@ module.exports =
 
 			@manager = new THREE.LoadingManager()
 
-			@deer = new OBJModel @manager, @scene, '/models/Deer.obj'
+			@deer = new OBJModel @manager, @scene, '../models/Deer.obj'
 
 			# kick off the render loop
 			@render()
