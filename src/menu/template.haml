@@ -1,0 +1,6 @@
+#menu(v-bind:class="classes")
+	%p menu
+	.close(v-on:click="toggle") x
+	%template(v-if="routes")
+		%li(v-for="(path, link) in routes")
+			%a(v-link="path" v-on:click="close") {{ link.label }}
