@@ -2,12 +2,12 @@ require '../utils/OBJLoader.js'
 
 ###
 Loads a typical OBJ file.
-Filename should be relative with leading '/'
+Filename should be relative without leading '/'
 ###
 class OBJModel
 	constructor: (@manager, @scene, @file) ->
 		@loader = new THREE.OBJLoader @manager
-		@loader.load @file, @onLoad
+		@loader.load (window.location.pathname + @file), @onLoad
 		return
 
 	onLoad: (object) =>
