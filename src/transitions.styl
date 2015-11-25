@@ -1,0 +1,21 @@
+@import '~variables.styl'
+
+.fadeup-transition
+	opacity 1
+	transition transform 900ms 800ms easeInOutSine,
+		opacity 500ms 800ms easeInOutSine
+
+.fadeup-leave
+	transform scale(0.7) translateX(100%)
+	z-index 0
+	opacity 0
+	transition transform 900ms 0ms easeInOutSine,
+		opacity 500ms 400ms easeInOutSine
+
+
+.fadeup-enter
+	transform scale(0.7) translateX(-100%)
+	z-index 0
+	opacity 0
+	transition transform 900ms 800ms easeInOutSine,
+		opacity 500ms 800ms easeInOutSine
