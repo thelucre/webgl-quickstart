@@ -23394,7 +23394,7 @@
 	      this.scene.add(this.light);
 	      this.scene.add(this.light2);
 	      this.manager = new THREE.LoadingManager();
-	      this.deer = new OBJModel(this.manager, this.scene, window.location.pathname + 'models/Deer.obj');
+	      this.deer = new OBJModel(this.manager, this.scene, 'models/Deer.obj');
 	      this.render();
 	    },
 	
@@ -72962,7 +72962,7 @@
 	
 	/*
 	Loads a typical OBJ file.
-	Filename should be relative with leading '/'
+	Filename should be relative without leading '/'
 	 */
 	
 	OBJModel = (function() {
@@ -72972,7 +72972,7 @@
 	    this.file = file;
 	    this.onLoad = bind(this.onLoad, this);
 	    this.loader = new THREE.OBJLoader(this.manager);
-	    this.loader.load(this.file, this.onLoad);
+	    this.loader.load(window.location.pathname + this.file, this.onLoad);
 	    return;
 	  }
 	
