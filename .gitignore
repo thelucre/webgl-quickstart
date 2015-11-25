@@ -5,9 +5,4 @@ bower_components
 node_modules
 npm-debug.log
 _docs
-build
 .DS_Store
-build/build.js
-build/build.js.map
-build/style.css
-build/style.css.map
