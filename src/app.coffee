@@ -1,5 +1,6 @@
 # import global styles (to force a compile)
 require 'style.styl'
+require './transitions.styl'
 
 Vue = require 'vue'
 VueRouter = require 'vue-router'
@@ -18,7 +19,8 @@ App = Vue.extend
 		console.log THREE
 		return
 
-router = new VueRouter()
+router = new VueRouter
+	transitionOnLoad: true
 
 router.map require './routes.coffee'
 
