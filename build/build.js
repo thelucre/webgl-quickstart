@@ -48,6 +48,8 @@
 	
 	__webpack_require__(1);
 	
+	__webpack_require__(38);
+	
 	Vue = __webpack_require__(2);
 	
 	VueRouter = __webpack_require__(6);
@@ -67,7 +69,9 @@
 	  }
 	});
 	
-	router = new VueRouter();
+	router = new VueRouter({
+	  transitionOnLoad: true
+	});
 	
 	router.map(__webpack_require__(11));
 	
@@ -73036,7 +73040,7 @@
 /* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id='container' v-on:click='onClick'>\n  <canvas v-el:canvas></canvas>\n</div>";
+	module.exports = "<div id='container' transition='fadeup' transition-mode='out-in' v-on:click='onClick'>\n  <canvas v-el:canvas></canvas>\n</div>";
 
 /***/ },
 /* 25 */
@@ -73990,7 +73994,14 @@
 /* 36 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id='container'>\n  <canvas v-el:canvas=''></canvas>\n</div>";
+	module.exports = "<div id='container' transition='fadeup' transition-mode='out-in'>\n  <canvas v-el:canvas=''></canvas>\n</div>";
+
+/***/ },
+/* 37 */,
+/* 38 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
