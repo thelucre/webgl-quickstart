@@ -6,7 +6,7 @@ The marquee
 require './style.styl'
 
 # Component definition
-Nav =
+module.exports =
 	template: require './template.haml'
 	inherit: true
 
@@ -28,4 +28,5 @@ Nav =
 		close: () ->
 			@classes.open = false
 
-module.exports = Nav
+		open: () ->
+			@classes.open = true

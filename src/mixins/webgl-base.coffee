@@ -96,6 +96,4 @@ module.exports =
 			@camera.aspect = @aspect
 			@camera.updateProjectionMatrix()
 			@renderer.setSize @width, @height
-
-			console.log @camera.aspect
 			return

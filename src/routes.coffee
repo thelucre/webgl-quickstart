@@ -6,3 +6,7 @@ module.exports =
 	'/cubes-and-deer':
 		component: require './cubes-and-deer/component.coffee'
 		label: 'Cubes, Deer, Tweens'
+		
+	'/cube-grid':
+		component: require './cube-grid/component.coffee'
+		label: 'Cube Grid'

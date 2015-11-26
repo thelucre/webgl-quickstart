@@ -44,15 +44,11 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(THREE) {var App, Vue, VueRouter, router;
+	/* WEBPACK VAR INJECTION */(function(Vue, VueRouter, THREE) {var App, router;
 	
 	__webpack_require__(2);
 	
 	__webpack_require__(3);
-	
-	Vue = __webpack_require__(4);
-	
-	VueRouter = __webpack_require__(8);
 	
 	Vue.use(__webpack_require__(9));
 	
@@ -69,15 +65,13 @@
 	  }
 	});
 	
-	router = new VueRouter({
-	  transitionOnLoad: true
-	});
+	router = new VueRouter;
 	
 	router.map(__webpack_require__(13));
 	
 	router.start(App, '#app');
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(8), __webpack_require__(1)))
 
 /***/ },
 /* 1 */
@@ -59484,11 +59478,9 @@
 	/*
 	The marquee
 	 */
-	var Nav;
-	
 	__webpack_require__(11);
 	
-	Nav = {
+	module.exports = {
 	  template: __webpack_require__(12),
 	  inherit: true,
 	  data: function() {
@@ -59506,11 +59498,12 @@
 	    },
 	    close: function() {
 	      return this.classes.open = false;
+	    },
+	    open: function() {
+	      return this.classes.open = true;
 	    }
 	  }
 	};
-	
-	module.exports = Nav;
 
 
 /***/ },
@@ -59537,6 +59530,10 @@
 	  '/cubes-and-deer': {
 	    component: __webpack_require__(22),
 	    label: 'Cubes, Deer, Tweens'
+	  },
+	  '/cube-grid': {
+	    component: __webpack_require__(29),
+	    label: 'Cube Grid'
 	  }
 	};
 
@@ -60095,7 +60092,6 @@
 	      this.camera.aspect = this.aspect;
 	      this.camera.updateProjectionMatrix();
 	      this.renderer.setSize(this.width, this.height);
-	      console.log(this.camera.aspect);
 	    }
 	  }
 	};
@@ -73989,6 +73985,166 @@
 
 /***/ },
 /* 28 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id='container' transition='fadeup' transition-mode='out-in' v-on:click='onClick'>\n  <canvas v-el:canvas></canvas>\n</div>";
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(THREE, _) {
+	/*
+	Copy this `template` folder to kick off a new webgl setup.
+	Besure to register the component in `routes.coffee`
+	 */
+	var Cube;
+	
+	Cube = __webpack_require__(32);
+	
+	module.exports = {
+	  template: __webpack_require__(33),
+	  mixins: [__webpack_require__(20)],
+	  data: function() {
+	    return {
+	      size: [16, 9]
+	    };
+	  },
+	  methods: {
+	
+	    /*
+	    		Called after the webgl-base scene is created for you.
+	    		You can override the `setup()` method in this component to build a custom
+	    		scene, camera, and renderer.
+	     */
+	    stageReady: function() {
+	      var i, j, ref, ref1, x, y;
+	      this.group = new THREE.Group();
+	      this.cubes = [];
+	      for (x = i = 0, ref = this.size[0]; 0 <= ref ? i < ref : i > ref; x = 0 <= ref ? ++i : --i) {
+	        for (y = j = 0, ref1 = this.size[1]; 0 <= ref1 ? j < ref1 : j > ref1; y = 0 <= ref1 ? ++j : --j) {
+	          this.cubes.push(new Cube(this.group, {
+	            position: new THREE.Vector3(x - 0.01, y, 0)
+	          }));
+	        }
+	      }
+	      this.scene.add(this.group);
+	      this.group.position.set(-this.size[0] / 2 + 0.5, -this.size[1] / 2 + 0.5, 5);
+	      this.light = new THREE.DirectionalLight();
+	      this.light.position.set(0, 0, 5);
+	      this.light.intensity = 1;
+	      this.scene.add(this.light);
+	      this.render();
+	    },
+	
+	    /*
+	    		Hook to update your scene objects per loop. See `webgl-base.render()`
+	    		for where this is called. It will request a new loop,
+	    		render the scene, or update TWEENjs.
+	     */
+	    onRender: function(time) {},
+	    onClick: function() {
+	      _.each(this.cubes, function(cube, index) {
+	        return cube.tween(index);
+	      });
+	    },
+	
+	    /*
+	    		Kill all your scene objects
+	     */
+	    onDeactivate: function() {}
+	  }
+	};
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(23)))
+
+/***/ },
+/* 30 */,
+/* 31 */,
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(THREE, _, TWEEN) {
+	/*
+	Standard coffee class will be our 3D 'View'
+	 */
+	var Cube;
+	
+	Cube = (function() {
+	  function Cube(scene, options) {
+	    this.scene = scene;
+	    this.colors = [0xFE4365, 0xf1f1f1, 0xC8C8A9, 0x83AF9B];
+	    options = options || {};
+	    options.position = options.position || new THREE.Vector3(0, 0, 0);
+	    options.scale = options.scale || new THREE.Vector3(1, 1, 1);
+	    options.wireframe = options.wireframe || false;
+	    this.geometry = new THREE.CubeGeometry(1, 1, 1);
+	    _.each(this.geometry.faces, (function(_this) {
+	      return function(face, index) {
+	        var color;
+	        color = _this.colors[Math.floor(Math.random() * _this.colors.length)];
+	        return face.color.setHex(color);
+	      };
+	    })(this));
+	    this.material = new THREE.MeshLambertMaterial({
+	      vertexColors: THREE.FaceColors
+	    });
+	    this.view = new THREE.Mesh(this.geometry, this.material);
+	    this.scene.add(this.view);
+	    this.view.position.set(options.position.x, options.position.y, options.position.z);
+	    this.view.scale.set(options.scale.x, options.scale.y, options.scale.z);
+	    return this;
+	  }
+	
+	  Cube.prototype.update = function() {
+	    this.view.rotation.y += 0.01;
+	  };
+	
+	  Cube.prototype.scale = function(scale) {
+	    this.view.scale.set(this.view.scale.x, scale, this.view.scale.z);
+	  };
+	
+	  Cube.prototype.tween = function(index) {
+	    var _material, _view, from, to, tween, tween2, tween3;
+	    from = {
+	      rx: this.view.rotation.x,
+	      color: this.material.color.getHex()
+	    };
+	    to = {
+	      rx: this.view.rotation.x + Math.PI / 2,
+	      color: this.colors[Math.floor(Math.random() * this.colors.length)]
+	    };
+	    _view = this.view;
+	    _material = this.material;
+	    tween = new TWEEN.Tween(from).to(to, 700).onUpdate(function() {
+	      _view.rotation.x = this.rx;
+	    }).easing(TWEEN.Easing.Quadratic.InOut).delay(index * 10 + 350).start();
+	    tween2 = new TWEEN.Tween({
+	      scale: 1
+	    }).to({
+	      scale: 0.2
+	    }, 350).onUpdate(function() {
+	      _view.scale.set(this.scale, this.scale, this.scale);
+	    }).easing(TWEEN.Easing.Exponential.In).delay(index * 10).start();
+	    tween3 = new TWEEN.Tween({
+	      scale: 0.2
+	    }).to({
+	      scale: 1
+	    }, 650).onUpdate(function() {
+	      _view.scale.set(this.scale, this.scale, this.scale);
+	    }).easing(TWEEN.Easing.Exponential.Out).delay(1000 + index * 10).start();
+	  };
+	
+	  return Cube;
+	
+	})();
+	
+	module.exports = Cube;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(23), __webpack_require__(21)))
+
+/***/ },
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id='container' transition='fadeup' transition-mode='out-in' v-on:click='onClick'>\n  <canvas v-el:canvas></canvas>\n</div>";
