@@ -41,6 +41,10 @@ module.exports =
 			test: /\.coffee$/
 			loader: "coffee-loader"
 		}
+		{
+			test: /\.cson$/
+			loader: "cson"
+		}
 	]
 
 	resolve:

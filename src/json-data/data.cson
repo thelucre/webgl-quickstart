@@ -1,0 +1,54 @@
+[
+	{
+		color: '0x300030'
+		message:
+			[
+				"*kcchh*"
+				"Mayday. Mayday."
+				"Engines failing, over."
+			]
+	}
+	{
+		color: "0x480048"
+		message:
+			[
+				"Second bogie detected..."
+				"To the rear, 49 knots."
+				"*kchh*"
+			]
+	}
+	{
+		color: "0x601848"
+		message:
+			[
+				" "
+				"*kchh* What the f... *kchh*"
+			]
+	}
+	{
+		color: '0xC04848'
+		message:
+			[
+				"(A warm glow surrounds"
+				"the cockpit)"
+			]
+	}
+	{
+		color: '0x8b7b41'
+		message:
+			[
+				"Come in, MIG-9"
+				"What is your position?"
+				"Over. *kchh*"
+			]
+	}
+	{
+		color: '0x300030'
+		message:
+			[
+				"YOU LOSE"
+				"EVERYTHING."
+				"Retry?"
+			]
+	}
+]
