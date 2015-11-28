@@ -97,3 +97,9 @@ module.exports =
 			@camera.updateProjectionMatrix()
 			@renderer.setSize @width, @height
 			return
+
+		###
+		Override meh if you wanna use!
+		###
+		onClick: (e) ->
+			return
