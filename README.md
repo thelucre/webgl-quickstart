@@ -1,22 +1,24 @@
-# Green Gov Challenge
-## Team BKWLD
+# WebGL Quickstart
 
-### Resources
-* Contest Homepage: [http://www.dgs.ca.gov/dgs/Home/GreenGovChallenge.aspx](http://www.dgs.ca.gov/dgs/Home/GreenGovChallenge.aspx)
-* Data repository: [https://greengov.data.ca.gov/browse](https://greengov.data.ca.gov/browse)
-* Full Contest Details: [https://github.com/CAGovOps/CAGreenGov](https://github.com/CAGovOps/CAGreenGov)
-* Dataset Presentation: [https://docs.google.com/presentation/d/1sa7QU-98to-1KIQwhXAjVnx-ujrwtZXuwYNEo2H2bWI/edit?usp=sharing](https://docs.google.com/presentation/d/1sa7QU-98to-1KIQwhXAjVnx-ujrwtZXuwYNEo2H2bWI/edit?usp=sharing)
-* Socrata Query Docs [http://dev.socrata.com/docs/queries.html](http://dev.socrata.com/docs/queries.html)
-
-### Install
+### Setup
 Run:
 * `bower install`
 * `npm install`
 * `webpack -w`
+* Setup a MAMP vhost or run `python -m SimpleHTTPServer 8080` in a new terminal window and hit `localhost:8080`
 
-### Branches
-The `master` branch ignores webpack builds. Change to the `gh-pages` branch and commit the webpack build js and css.
+### Adding a demo component
+* Duplicate and rename the `src/template` folder
+* Register your new demo component in the `routes.coffee` file. This will add it to the routes config and the menu navigation. Example config:
+```
+'/cube-grid':
+	component: require './cube-grid/component.coffee'
+	label: 'Cube Grid'
+```
 
-View the app at [http://thelucre.github.io/greengov](http://thelucre.github.io/greengov)
-
-![http://yo.bkwld.com/image/1W2i2J2F2r1H/greengov-full.jpg](http://yo.bkwld.com/image/1W2i2J2F2r1H/greengov-full.jpg)
+### Basic Guide
+* The basic THREEjs setup is pulled in through the `webgl-base.coffee` mixin.
+* Implement the `stageReady` method to add objects to the scene
+* All component implemented `webgl-base` will have access to `@scene`, `@renderer`, and `@camera`
+* Override any of the `webgl-base methods` or the `bade.haml` template if you want a full custom scene
+* Be sure to properly destroy your scene objects and remove custom event handlers in the `onDeactive` hook.

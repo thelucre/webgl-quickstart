@@ -2,9 +2,6 @@
 require 'style.styl'
 require './transitions.styl'
 
-Vue = require 'vue'
-VueRouter = require 'vue-router'
-
 Vue.use require 'vue-resource'
 Vue.use VueRouter
 
@@ -20,20 +17,7 @@ App = Vue.extend
 		return
 
 router = new VueRouter
-	transitionOnLoad: true
 
 router.map require './routes.coffee'
 
 router.start App, '#app'
-
-#
-# app = new Vue
-# 	el: '#app'
-#
-# 	data: {}
-#
-# 	components:
-# 		webgl: require './webgl/component.coffee'
-#
-# 	ready: () ->
-# 		return

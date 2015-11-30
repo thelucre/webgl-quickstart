@@ -96,6 +96,10 @@ module.exports =
 			@camera.aspect = @aspect
 			@camera.updateProjectionMatrix()
 			@renderer.setSize @width, @height
+			return
 
-			console.log @camera.aspect
+		###
+		Override meh if you wanna use!
+		###
+		onClick: (e) ->
 			return
