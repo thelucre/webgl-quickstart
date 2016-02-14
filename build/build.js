@@ -59538,6 +59538,10 @@
 	  '/json-data': {
 	    component: __webpack_require__(32),
 	    label: 'JSON Data Slider'
+	  },
+	  '/lawn-mower': {
+	    component: __webpack_require__(37),
+	    label: 'Lawn Mower OBJ'
 	  }
 	};
 
@@ -74169,9 +74173,9 @@
 	
 	CustomText = __webpack_require__(33);
 	
-	MessagePane = __webpack_require__(36);
+	MessagePane = __webpack_require__(35);
 	
-	data = __webpack_require__(35);
+	data = __webpack_require__(36);
 	
 	module.exports = {
 	  template: __webpack_require__(19),
@@ -74322,12 +74326,6 @@
 
 /***/ },
 /* 35 */
-/***/ function(module, exports) {
-
-	module.exports = [{"color":"0x300030","message":["*kcchh*","Mayday. Mayday.","Engines failing, over."]},{"color":"0x480048","message":["Second bogie detected...","To the rear, 49 knots.","*kchh*"]},{"color":"0x601848","message":[" ","*kchh* What the f... *kchh*"]},{"color":"0xC04848","message":["(A warm glow surrounds","the cockpit)"]},{"color":"0x8b7b41","message":["Come in, MIG-9","What is your position?","Over. *kchh*"]},{"color":"0x300030","message":["YOU LOSE","EVERYTHING.","Retry?"]}]
-
-/***/ },
-/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(THREE, _, TWEEN) {var CustomText, MessagePane,
@@ -74438,6 +74436,238 @@
 	module.exports = MessagePane;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(23), __webpack_require__(21)))
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	module.exports = [{"color":"0x300030","message":["*kcchh*","Mayday. Mayday.","Engines failing, over."]},{"color":"0x480048","message":["Second bogie detected...","To the rear, 49 knots.","*kchh*"]},{"color":"0x601848","message":[" ","*kchh* What the f... *kchh*"]},{"color":"0xC04848","message":["(A warm glow surrounds","the cockpit)"]},{"color":"0x8b7b41","message":["Come in, MIG-9","What is your position?","Over. *kchh*"]},{"color":"0x300030","message":["YOU LOSE","EVERYTHING.","Retry?"]}]
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(THREE) {
+	/*
+	The marquee
+	 */
+	var CustomCube, OBJModel;
+	
+	CustomCube = __webpack_require__(38);
+	
+	OBJModel = __webpack_require__(39);
+	
+	module.exports = {
+	  template: __webpack_require__(40),
+	  mixins: [__webpack_require__(20)],
+	  methods: {
+	
+	    /*
+	    		Called after the webgl-base scene is created for you.
+	    		You can override the `setup()` method in this component to build a custom
+	    		scene, camera, and renderer.
+	     */
+	    stageReady: function() {
+	      this.renderer.setClearColor(0x38a48a);
+	      this.light = new THREE.DirectionalLight(0xffffff, 1);
+	      this.light.position.set(0, 4, 0);
+	      this.light.castShadow = true;
+	      this.light2 = new THREE.DirectionalLight(0xffffff, 1);
+	      this.light2.position.set(0, -4, 0);
+	      this.light2.castShadow = true;
+	      this.scene.add(this.light);
+	      this.manager = new THREE.LoadingManager();
+	      this.mower = new OBJModel(this.manager, this.scene, 'models/LawnMower.obj');
+	      this.render();
+	    },
+	
+	    /*
+	    		Hook to update your scene objects per loop. See `webgl-base.render()`
+	    		for where this is called. It will request a new loop,
+	    		render the scene, or update TWEENjs.
+	     */
+	    onRender: function(time) {},
+	    onClick: function() {
+	      this.mower.tween();
+	    },
+	
+	    /*
+	    		Kill all your scene objects
+	     */
+	    onDeactivate: function() {
+	      delete this.light;
+	      delete this.light2;
+	      delete this.mower;
+	    }
+	  }
+	};
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(THREE, TWEEN) {
+	/*
+	Standard coffee class will be our 3D 'View'
+	 */
+	var CustomCube;
+	
+	CustomCube = (function() {
+	  function CustomCube(scene, options) {
+	    this.scene = scene;
+	    options.position = options.position || new THREE.Vector3(0, 0, 0);
+	    options.scale = options.scale || new THREE.Vector3(1, 1, 1);
+	    options.wireframe = options.wireframe || false;
+	    this.geometry = new THREE.CubeGeometry(1, 1, 1);
+	    this.material = new THREE.MeshLambertMaterial({
+	      wireframe: options.wireframe,
+	      color: 0xff0000
+	    });
+	    this.view = new THREE.Mesh(this.geometry, this.material);
+	    this.scene.add(this.view);
+	    this.view.position.set(options.position.x, options.position.y, options.position.z);
+	    this.view.scale.set(options.scale.x, options.scale.y, options.scale.z);
+	    return this;
+	  }
+	
+	  CustomCube.prototype.update = function() {
+	    this.view.rotation.y += 0.01;
+	  };
+	
+	  CustomCube.prototype.scale = function(scale) {
+	    this.view.scale.set(this.view.scale.x, scale, this.view.scale.z);
+	  };
+	
+	  CustomCube.prototype.tween = function() {
+	    var _material, _view, from, to, tween;
+	    from = {
+	      sx: 0.5,
+	      sy: this.view.scale.y,
+	      sz: 0.5,
+	      rx: this.view.rotation.x,
+	      r: this.material.color.r,
+	      g: this.material.color.g,
+	      b: this.material.color.b
+	    };
+	    to = {
+	      sx: 0.5,
+	      sy: 0.5 + Math.random() * 4,
+	      sz: 0.5,
+	      rx: this.view.rotation.x + Math.PI / 4,
+	      r: Math.random() * 255 / 255,
+	      g: Math.random() * 255 / 255,
+	      b: Math.random() * 255 / 255
+	    };
+	    _view = this.view;
+	    _material = this.material;
+	    tween = new TWEEN.Tween(from).to(to, 700).onUpdate(function() {
+	      _view.scale.set(this.sx, this.sy, this.sz);
+	      _view.rotation.x = this.rx;
+	      _material.color = new THREE.Color(this.r, this.g, this.b);
+	    }).easing(TWEEN.Easing.Back.InOut).delay(Math.random() * 220).start();
+	  };
+	
+	  return CustomCube;
+	
+	})();
+	
+	module.exports = CustomCube;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(21)))
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(THREE, TWEEN) {var OBJModel,
+	  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+	
+	__webpack_require__(27);
+	
+	
+	/*
+	Loads a typical OBJ file.
+	Filename should be relative without leading '/'
+	 */
+	
+	OBJModel = (function() {
+	  function OBJModel(manager, scene, file) {
+	    this.manager = manager;
+	    this.scene = scene;
+	    this.file = file;
+	    this.onLoad = bind(this.onLoad, this);
+	    this.loader = new THREE.OBJLoader(this.manager);
+	    this.loader.load(window.location.pathname + this.file, this.onLoad);
+	    return;
+	  }
+	
+	  OBJModel.prototype.onLoad = function(object) {
+	    var scale;
+	    this.view = object;
+	    this.material = new THREE.MeshPhongMaterial({
+	      side: THREE.DoubleSide,
+	      shading: THREE.SmoothShading
+	    });
+	    object.traverse((function(_this) {
+	      return function(child) {
+	        if (child instanceof THREE.Mesh) {
+	          child.material = _this.material;
+	          child.geometry.computeFaceNormals();
+	          return child.geometry.computeVertexNormals(true);
+	        }
+	      };
+	    })(this));
+	    this.view.rotation.set(0, -Math.PI / 2, 0);
+	    scale = 1;
+	    this.view.scale.set(scale, scale, scale);
+	    this.view.position.set(0, -2, 0);
+	    this.view.needsUpdate = true;
+	    this.scene.add(this.view);
+	  };
+	
+	  OBJModel.prototype.tween = function() {
+	    var _material, _view, from, to, tween;
+	    from = {
+	      sx: this.view.scale.x,
+	      sy: this.view.scale.y,
+	      sz: this.view.scale.z,
+	      ry: this.view.rotation.y,
+	      r: this.material.emissive.r,
+	      g: this.material.emissive.g,
+	      b: this.material.emissive.b
+	    };
+	    to = {
+	      sx: this.view.scale.x,
+	      sy: this.view.scale.y,
+	      sz: this.view.scale.z,
+	      ry: this.view.rotation.y + Math.PI / 2,
+	      r: Math.random() * 255 / 255,
+	      g: Math.random() * 255 / 255,
+	      b: Math.random() * 255 / 255
+	    };
+	    _view = this.view;
+	    _material = this.material;
+	    tween = new TWEEN.Tween(from).to(to, 700).onUpdate(function() {
+	      _view.scale.set(this.sx, this.sy, this.sz);
+	      _view.rotation.y = this.ry;
+	    }).easing(TWEEN.Easing.Back.InOut).delay(Math.random() * 220).start();
+	  };
+	
+	  return OBJModel;
+	
+	})();
+	
+	module.exports = OBJModel;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(21)))
+
+/***/ },
+/* 40 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id='container' transition='fadeup' transition-mode='out-in' v-on:click='onClick'>\n  <canvas v-el:canvas></canvas>\n</div>";
 
 /***/ }
 /******/ ]);
