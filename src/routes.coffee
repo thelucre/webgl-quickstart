@@ -15,3 +15,8 @@ module.exports =
 	'/json-data':
 		component: require './json-data/component.coffee'
 		label: 'JSON Data Slider'
+
+
+	'/lawn-mower':
+		component: require './lawn-mower/component.coffee'
+		label: 'Lawn Mower OBJ'
