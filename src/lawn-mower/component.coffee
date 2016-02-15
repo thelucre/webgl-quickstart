@@ -20,22 +20,26 @@ module.exports =
 		###
 		stageReady: () ->
 			@renderer.setClearColor 0x38a48a
-			
+
 			@light = new THREE.DirectionalLight( 0xffffff, 1 )
-			@light.position.set 0,4,0
+			@light.position.set -2,4,2
 			@light.castShadow = true
 
 			@light2 = new THREE.DirectionalLight( 0xffffff, 1 )
 			@light2.position.set 0,-4,0
 			@light2.castShadow = true
 
+			@ambient = new THREE.AmbientLight( 0x404040 )
+			@ambient.castShadow = true
+
 			@scene.add @light
 			# @scene.add @light2
-			# @scene.add new THREE.AmbientLight( 0xffffff, 0.1 )
+			@scene.add @ambient
+
 
 			@manager = new THREE.LoadingManager()
 
-			@mower = new OBJModel @manager, @scene, 'models/LawnMower.obj'
+			@mower = new OBJModel @manager, @scene, 'models/LawnMower.dae'
 
 			# kick off the render loop
 			@render()
